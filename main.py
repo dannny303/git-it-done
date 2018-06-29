@@ -28,9 +28,17 @@ def index():
         db.session.commit()
 
     tasks = Task.query.all()
-
-
     return render_template('todos.html', title="Get It Done!", tasks=tasks)
+
+@app.route('/delete-task', methods= ['POST'])
+def delete_task():
+
+    task_id = int(request.form['task-id'])
+    task = Task.query.get(task_id)
+    db.session.delete(task)
+    db.session.commit()
+
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run()
